@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: gabrielrufino/node-ci@v2
+      - uses: actalog/node-ci@v2
         with:
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
@@ -22,4 +22,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: gabrielrufino/dockerfile-ci@v2
+      - uses: actalog/dockerfile-ci@v2
