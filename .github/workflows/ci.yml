@@ -12,9 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actalog/node-ci@v2
-        with:
-          sonar-token: ${{ secrets.SONAR_TOKEN }} # Remove
-          sonar-host-url: ${{ secrets.SONAR_HOST_URL }} # Remove
   dockerfile-ci:
     name: Dockerfile CI
     runs-on: ubuntu-latest
