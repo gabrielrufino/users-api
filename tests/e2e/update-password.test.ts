@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker';
 import supertest from 'supertest';
+import { describe, it } from 'vitest';
 
 import { server } from '../../src/http.server';
 import { mockUser } from '../__mocks__/user';
 
 describe('Update password (e2e)', () => {
-  test('Should update an user password', async () => {
+  it('Should update an user password', async () => {
     const initialUser = mockUser();
 
     const { body } = await supertest(server)

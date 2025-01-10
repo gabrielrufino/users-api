@@ -1,10 +1,15 @@
 import supertest from 'supertest';
+import {
+  describe, afterAll, it, expect,
+} from 'vitest';
 
 import { server } from '../../src/http.server';
 import { orm } from '../../src/start/database';
 import { mockUser } from '../__mocks__/user';
 
 describe('Tokens (e2e)', () => {
+  console.log({ driver: process.env.DATABASE_DRIVER });
+
   afterAll(async () => {
     await orm.close();
   });

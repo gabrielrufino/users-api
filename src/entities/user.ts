@@ -1,9 +1,7 @@
 import { Entity, Property } from '@mikro-orm/core';
-import { SoftDeletable } from 'mikro-orm-soft-delete';
 
 import { InitialEntity } from './initial.entity';
 
-@SoftDeletable(() => User, 'deletedAt', () => new Date())
 @Entity()
 export class User extends InitialEntity {
   @Property()
@@ -29,7 +27,4 @@ export class User extends InitialEntity {
 
   @Property({ hidden: true, onUpdate: () => new Date() })
     updatedAt: Date = new Date();
-
-  @Property({ hidden: true, nullable: true })
-    deletedAt: Date | null = null;
 }

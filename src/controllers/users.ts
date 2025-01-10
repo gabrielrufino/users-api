@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-import type { FilterQuery } from '@mikro-orm/core';
+import { wrap, type FilterQuery } from '@mikro-orm/core';
 import bcrypt from 'bcryptjs';
 import { plainToClass } from 'class-transformer';
 import type { Request, Response } from 'express';
@@ -13,6 +13,7 @@ import { User } from '../entities/user';
 import { orm } from '../start/database';
 
 const userRepository = orm.em.fork().getRepository(User);
+const em = orm.em.fork();
 const salt = bcrypt.genSaltSync(10);
 
 export default {
@@ -103,13 +104,13 @@ export default {
     user.name = name ?? user.name;
     user.email = email ?? user.email;
     user.username = username ?? user.username;
-    await userRepository.flush();
+    await orm.em.fork().flush();
 
     return response.status(200).json(user);
   },
   updatePassword: async (request: Request<any, any, UpdatePasswordDto>, response: Response) => {
-    const user = await userRepository
-      .findOne(request.params.id as any);
+    const user = await em
+      .findOne(User, request.params.id as any);
 
     if (user == null) {
       return response.status(404).json({
@@ -126,7 +127,7 @@ export default {
 
     user.password = bcrypt.hashSync(newPassword, salt);
 
-    await userRepository.flush();
+    await em.flush();
 
     return response.status(200).json({
       message: 'Password updated',

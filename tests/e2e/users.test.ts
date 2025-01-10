@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken';
 import supertest from 'supertest';
+import {
+  describe, it, afterAll, expect,
+} from 'vitest';
 
 import { server } from '../../src/http.server';
 import { orm } from '../../src/start/database';
@@ -14,7 +17,7 @@ describe('Users (e2e)', () => {
 
   const user = mockUser();
 
-  test('Should create an user', async () => {
+  it('Should create an user', async () => {
     await supertest(server)
       .post('/api/users')
       .send(user)
@@ -31,7 +34,7 @@ describe('Users (e2e)', () => {
     token = body.Authorization;
   });
 
-  test('Should list a page of users', async () => {
+  it('Should list a page of users', async () => {
     const { body } = await supertest(server)
       .get('/api/users')
       .set('Authorization', token)
@@ -54,7 +57,7 @@ describe('Users (e2e)', () => {
     });
   });
 
-  test('Should detail the user', async () => {
+  it('Should detail the user', async () => {
     const id = jwt.decode(token.split(' ')[1])?.sub;
 
     const { body } = await supertest(server)
@@ -69,7 +72,7 @@ describe('Users (e2e)', () => {
     });
   });
 
-  test('Should delete the user', () => {
+  it('Should delete the user', () => {
     const id = jwt.decode(token.split(' ')[1])?.sub;
 
     return supertest(server)
