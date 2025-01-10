@@ -23,10 +23,7 @@ const config = defineConfig({
   debug: true,
 });
 
-const orm = await MikroORM.init(config);
+const orm = MikroORM.initSync(config);
 logger.info('Connected to the database');
-
-const generator = orm.getSchemaGenerator();
-await generator.updateSchema();
 
 export { config, orm };

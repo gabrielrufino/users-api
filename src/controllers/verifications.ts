@@ -3,14 +3,14 @@ import type { Request, Response } from 'express';
 import { User } from '../entities/user';
 import { orm } from '../start/database';
 
-const userRepository = orm.em.getRepository(User);
+const em = orm.em.fork();
 
 export default {
   create: async (request: Request, response: Response) => {
-    const { user_id: userId, type, key } = request.body;
+    const { user_id: userId, key } = request.body;
 
-    const user = await userRepository
-      .findOne(userId);
+    const user = await em
+      .findOne(User, { id: userId });
 
     if (user == null) {
       return response.status(404).json({
@@ -27,7 +27,7 @@ export default {
       });
     }
 
-    await userRepository.flush();
+    await em.flush();
 
     return response.status(201).json({
       success: 'Email verified',
